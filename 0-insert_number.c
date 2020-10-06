@@ -24,6 +24,7 @@ temp = *head;
 
 if (*head == NULL)
 {
+new->next = NULL;
 *head = new;
 }
 
