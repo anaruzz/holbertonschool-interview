@@ -27,7 +27,7 @@ if (*head == NULL)
 {
 new->next = NULL;
 *head = new;
-return (*head);
+return (new);
 }
 
 temp = *head;
