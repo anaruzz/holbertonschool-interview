@@ -19,14 +19,15 @@ if (new == NULL)
 return (NULL);
 
 new->n = number;
-temp = *head;
-
 
 if (*head == NULL)
 {
 new->next = NULL;
 *head = new;
+return (*head);
 }
+
+temp = *head;
 
 if (new->n < temp->n)
 {
