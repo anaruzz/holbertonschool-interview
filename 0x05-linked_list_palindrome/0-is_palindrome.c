@@ -15,7 +15,7 @@ if (!(*head))
 return (1);
 
 if (!(*head)->next)
-return (0);
+return (1);
 
 last = *head;
 while (last->next)
