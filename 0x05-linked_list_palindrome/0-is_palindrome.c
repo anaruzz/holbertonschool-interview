@@ -14,6 +14,8 @@ listint_t *first, *last;
 if (!(*head))
 return (1);
 
+if (!(*head)->next)
+return (0);
 
 last = *head;
 while (last->next)
