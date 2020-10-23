@@ -14,6 +14,9 @@ const listint_t *fast, *slow;
 if (!list)
 return (0);
 
+if (!list->next)
+return (0);
+
 slow = list;
 fast = list->next->next;
 while (fast)
