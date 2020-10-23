@@ -9,17 +9,19 @@
 */
 int check_cycle(listint_t *list)
 {
-const listint_t *first;
+const listint_t *fast, *slow;
 
 if (!list)
 return (0);
 
-first = list;
-while (list->next->next)
+slow = list;
+fast = list->next->next;
+while (fast)
 {
-if (list->next != first)
+if (slow != fast)
 {
-list = list->next->next;
+slow = slow->next;
+fast = fast->next->next;
 }
 else
 return (1);
