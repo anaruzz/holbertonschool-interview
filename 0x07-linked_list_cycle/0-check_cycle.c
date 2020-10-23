@@ -15,11 +15,11 @@ if (!list)
 return (0);
 
 first = list;
-while (list->next)
+while (list->next->next)
 {
 if (list->next != first)
 {
-list = list->next;
+list = list->next->next;
 }
 else
 return (1);
