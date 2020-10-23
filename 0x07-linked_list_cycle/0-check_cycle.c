@@ -9,7 +9,7 @@
 */
 int check_cycle(listint_t *list)
 {
-const listint_t *fast, *slow, *first;
+const listint_t *fast, *slow;
 
 if (!list)
 return (0);
@@ -17,12 +17,11 @@ return (0);
 if (!list->next)
 return (0);
 
-first = list;
 slow = list->next;
 fast = list->next->next;
 while (fast && slow && fast->next)
 {
-if (slow == fast || first == slow)
+if (slow == fast)
 return (1);
 else
 {
