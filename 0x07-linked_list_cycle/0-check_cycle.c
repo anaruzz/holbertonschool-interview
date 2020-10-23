@@ -11,6 +11,9 @@ int check_cycle(listint_t *list)
 {
 const listint_t *first;
 
+if (!list)
+return (0);
+
 first = list;
 while (list->next)
 {
