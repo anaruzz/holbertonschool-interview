@@ -20,7 +20,7 @@ return (0);
 first = list;
 slow = list->next;
 fast = list->next->next;
-while (fast)
+while (fast && slow && fast->next)
 {
 if (slow == fast || first == slow)
 return (1);
