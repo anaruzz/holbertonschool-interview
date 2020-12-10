@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-#Script that determines if all the boxes can be opened
+# Script that determines if all the boxes can be opened
+
 
 def canUnlockAll(boxes):
     """
