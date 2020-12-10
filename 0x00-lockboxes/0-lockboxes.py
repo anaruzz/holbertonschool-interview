@@ -2,6 +2,9 @@
 #Script that determines if all the boxes can be opened
 
 def canUnlockAll(boxes):
+    """
+    function that determines if all boxes can be opened
+    """
     if len(boxes) == 0:
         return False
 
