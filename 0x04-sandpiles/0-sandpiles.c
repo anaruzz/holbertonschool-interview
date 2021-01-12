@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include "sandpiles.h"
 
 /**
  * check_stable - check if grid is stable.
@@ -20,26 +21,6 @@ return (0);
 return (1);
 }
 
-/**
- * print_grid - print grid.
- * @grid: matrix 3x3.
- * Return: void
- */
-void print_grid(int grid[3][3])
-{
-int i, j;
-
-for (i = 0; i < 3; i++)
-{
-for (j = 0; j < 3; j++)
-{
-if (j)
-printf(" ");
-printf("%d", grid[i][j]);
-}
-printf("\n");
-}
-}
 
 /**
  * basic_sum - basic sum of 2 grids
@@ -89,6 +70,27 @@ grid[i][j + 1] += 1;
 }
 
 /**
+ * print_grid - print grid.
+ * @grid: matrix 3x3.
+ * Return: void
+ */
+void print_gridd(int grid[3][3])
+{
+int i, j;
+
+for (i = 0; i < 3; i++)
+{
+for (j = 0; j < 3; j++)
+{
+if (j)
+printf(" ");
+printf("%d", grid[i][j]);
+}
+printf("\n");
+}
+}
+
+/**
  * sandpiles_sum - Sum of 2 sandpiles
  * @grid1: matrix 3x3.
  * @grid2: matrix 3x3.
@@ -101,7 +103,7 @@ basic_sum(grid1, grid2);
 while (check_stable(grid1) == 0)
 {
 printf("=\n");
-print_grid(grid1);
+print_gridd(grid1);
 topple(grid1);
 }
 
