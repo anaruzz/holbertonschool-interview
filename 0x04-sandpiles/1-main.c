@@ -51,16 +51,16 @@ static void print_grid(int grid[3][3])
  */
 int main(void)
 {
-    int grid1[3][3] = {
-        {3, 3, 3},
-        {3, 3, 3},
-        {3, 3, 3}
-    };
-    int grid2[3][3] = {
-        {1, 3, 1},
-        {3, 3, 3},
-        {1, 3, 1}
-    };
+  int grid1[3][3] = {
+      {0, 0, 0},
+      {0, 0, 0},
+      {0, 0, 0}
+  };
+  int grid2[3][3] = {
+      {3, 3, 3},
+      {3, 3, 3},
+      {3, 3, 3}
+  };
 
     print_grid_sum(grid1, grid2);
 
