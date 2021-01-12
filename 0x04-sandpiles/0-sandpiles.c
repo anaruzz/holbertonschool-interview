@@ -74,7 +74,7 @@ grid[i][j + 1] += 1;
  * @grid: matrix 3x3.
  * Return: void
  */
-void print_gridd(int grid[3][3])
+void print_grid(int grid[3][3])
 {
 int i, j;
 
@@ -103,7 +103,7 @@ basic_sum(grid1, grid2);
 while (check_stable(grid1) == 0)
 {
 printf("=\n");
-print_gridd(grid1);
+print_grid(grid1);
 topple(grid1);
 }
 
