@@ -11,7 +11,7 @@ def validUTF8(data):
     """
     masked = [i & 255 for i in data]
     try:
-        bytes(masked).decode("UTF-8")
+        bytearray(masked).decode("UTF-8")
         return True
     except Exception as e:
         return False
