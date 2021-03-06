@@ -1,41 +1,38 @@
 #!/usr/bin/python3
 """
-A script that reads stdin line by line and computes metrics
+A sript that reads stdin l by l and computes metrics
 """
 import sys
 
-status = {"200": 0,
-          "301": 0,
-          "400": 0,
-          "401": 0,
-          "403": 0,
-          "404": 0,
-          "405": 0,
-          "500": 0
-          }
-i = 0
+
+status = {
+    "200": 0,
+    "301": 0,
+    "400": 0,
+    "401": 0,
+    "403": 0,
+    "404": 0,
+    "405": 0,
+    "500": 0
+    }
 total = 0
 try:
-    for line in sys.stdin:
-        i += 1
-        token = line.split(" ")
-        code = int(token[-1])
+    for t, l in enumerate(sys.stdin, 1):
+        token = l.split()
         if len(token) > 2:
-            total += code
+            code = token[len(token) - 2]
+            total += int(token[len(token) - 1])
             if code in status:
-                status[code] += 1
-        if i % 10 == 0:
+                status[str(code)] += 1
+        if t % 10 == 0:
             print("File size: {}".format(total))
-            for code, stat in sorted(status.items()):
-                if stat > 0:
-                    print("{}: {}".format(code, stat))
-                i = 0
-except Exception as E:
+            for s in sorted(status):
+                if status[s] > 0:
+                    print("{}: {}".format(s, status[s]))
+except Exception:
     pass
-
 finally:
     print("File size: {}".format(total))
-    for code, stat in sorted(status.items()):
-        if stat > 0:
-            print("{}: {}".format(code, stat))
-    i = 0
+    for s in sorted(status):
+        if status[s] > 0:
+            print("{}: {}".format(s, status[s]))
