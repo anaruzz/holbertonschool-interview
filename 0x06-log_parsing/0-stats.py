@@ -19,9 +19,6 @@ try:
         i += 1
         total += int(line.split()[8])
         code = line.split()[7]
-        if len(code) > 2:
-            code = code[len(code) - 2]
-            total += int(code[len(code) - 1])
         if code in status:
             status[code] += 1
         if i % 10 == 0:
