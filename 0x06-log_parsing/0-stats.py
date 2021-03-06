@@ -18,10 +18,12 @@ total = 0
 try:
     for line in sys.stdin:
         i += 1
-        total += int(line.split()[8])
-        code = line.split()[7]
-        if code in status:
-            status[code] += 1
+        token = line.split(" ")
+        code = int(token[-1])
+        if len(token) > 2:
+            total += code
+            if code in status:
+                status[code] += 1
         if i % 10 == 0:
             print("File size: {}".format(total))
             for code, stat in sorted(status.items()):
