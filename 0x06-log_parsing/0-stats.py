@@ -24,7 +24,7 @@ try:
             total += int(token[len(token) - 1])
             if code in status:
                 status[code] += 1
-        if t % 10 == 0:
+        if t == 10:
             print("File size: {}".format(total))
             for s in sorted(status):
                 if status[s] > 0:
