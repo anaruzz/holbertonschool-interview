@@ -4,18 +4,18 @@ A sript that reads stdin l by l and computes metrics
 """
 import sys
 
-
-status = {
-    "200": 0,
-    "301": 0,
-    "400": 0,
-    "401": 0,
-    "403": 0,
-    "404": 0,
-    "405": 0,
-    "500": 0
-    }
 total = 0
+
+status = {"200": 0,
+          "301": 0,
+          "400": 0,
+          "401": 0,
+          "403": 0,
+          "404": 0,
+          "405": 0,
+          "500": 0
+          }
+
 try:
     for t, l in enumerate(sys.stdin, 1):
         token = l.split()
@@ -23,7 +23,7 @@ try:
             code = token[len(token) - 2]
             total += int(token[len(token) - 1])
             if code in status:
-                status[str(code)] += 1
+                status[code] += 1
         if t % 10 == 0:
             print("File size: {}".format(total))
             for s in sorted(status):
