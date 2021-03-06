@@ -19,6 +19,9 @@ try:
         i += 1
         total += int(line.split()[8])
         code = line.split()[7]
+        if len(code) > 2:
+            code = code[len(code) - 2]
+            total += int(code[len(code) - 1])
         if code in status:
             status[code] += 1
         if i % 10 == 0:
@@ -32,7 +35,7 @@ except Exception as E:
 
 finally:
     print("File size: {}".format(total))
-    for code, stat in sorted(status.items()) :
+    for code, stat in sorted(status.items()):
         if stat > 0:
             print("{}: {}".format(code, stat))
     i = 0
