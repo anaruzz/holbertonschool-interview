@@ -23,7 +23,7 @@ try:
             status[code] += 1
         if i == 10:
             print("File size: {}".format(total))
-            for code, stat in sorted(status.items()):
+            for code, stat in status.items():
                 if stat > 0:
                     print("{}: {}".format(code, stat))
                 i = 0
