@@ -22,6 +22,7 @@ n = int(sys.argv[1])
 board = [[0 for x in range(n)] for y in range(n)]
 k = 1
 
+
 def printSolution(board, n):
     """
     Prints solution according to requierements
@@ -34,6 +35,7 @@ def printSolution(board, n):
             if board[i][j] == 1:
                 m.append([i, j])
     print(m)
+
 
 def isSafe(board, row, col, n):
     """
@@ -54,6 +56,7 @@ def isSafe(board, row, col, n):
         if board[i][j] == 1:
             return False
     return True
+
 
 def solveNQUtil(board, col, n):
     """
@@ -76,10 +79,10 @@ def solveNQ(n):
     nqueen solve
     """
     board = [[0 for x in range(n)] for y in range(n)]
-
-    if solveNQUtil(board, 0, n) == False:
+    if solveNQUtil(board, 0, n) is False:
         print("Solution does not exist")
         return
     return
+
 
 solveNQ(n)
