@@ -3,9 +3,9 @@
 A function that queries the Reddit API, parses the title
 of all hot articles, and prints a sorted count of given keywords
 """
+import json
 import requests as rq
 import sys
-import json
 
 
 def recursive(subreddit, hot_list=[]):
@@ -17,11 +17,11 @@ def recursive(subreddit, hot_list=[]):
         global after
         if after:
             response = rq.get(url + subreddit + "/hot.json?after=" +
-                                    after, headers=headers,
-                                    allow_redirects=False)
+                              after, headers=headers,
+                              allow_redirects=False)
         else:
             response = rq.get(url + subreddit + "/hot.json",
-                                    headers=headers, allow_redirects=False)
+                              headers=headers, allow_redirects=False)
         after = response.json()['data']['after']
         hot_list += [element['data']['title'] for element in response.
                      json()['data']['children']]
