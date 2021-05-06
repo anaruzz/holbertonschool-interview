@@ -62,3 +62,5 @@ def count_words(subreddit, word_list):
     for k, v in count_dict:
         if v != 0:
             print(k + ": " + str(v))
+        else:
+            print("")
