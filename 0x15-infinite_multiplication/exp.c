@@ -10,7 +10,6 @@ int main ()
   {
     len++;
   }
-  // printf("%i\n", res);
 
   i = 0;
   while (i < len)

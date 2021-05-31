@@ -1,98 +1,95 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
+#include "holberton.h"
+/**
+* _strlen - returns the len of a string
+* @s: string
+* Return: the length
+**/
+int _strlen(char *s)
+{
+char *c = s;
+while (*s)
+s++;
+return (s - c);
+}
 
 /**
- * _putchar - writes the character c to stdout
- * @c: The character to print
+ * is_digit - checks if the arg is a number
+ * @c: argument
  *
- * Return: On success 1.
- * On error, -1 is returned, and errno is set appropriately.
- */
-int _putchar(char c)
+ * Return: false or true
+ **/
+int is_digit(char *c)
 {
-	return (write(1, &c, 1));
+	while (*c)
+	{
+		if (*c < '0' || *c > '9')
+			return (0);
+		c++;
+	}
+	return (1);
 }
 
 /**
- * is_number - prints Error
- * @s: string passed for testing
- * Return: 1 or 0 on failure
- */
-int is_number(char *s)
+ * multiply - multiplies two numbers
+ * @a: first "number"
+ * @b: second "number"
+ **/
+void multiply(char *a, char *b)
 {
-  int i;
-  for (i = 0; s[i] != '\0'; i++)
-  {
-    if (s[i] > '9' || s[i] < '0')
-    return 0;
-  }
-  return 1;
+	int i, len_a, len_b, total, a_number, b_number, res = 0, tmp;
+	int *ptr;
+
+	len_a = _strlen(a);
+	len_b = _strlen(b);
+	tmp = len_b;
+	total = len_a + len_b;
+	ptr = malloc(sizeof(int) * total);
+	if (!ptr)
+	{
+		return;
+	}
+	for (len_a--; len_a >= 0; len_a--)
+	{
+		a_number = a[len_a] - '0';
+		res = 0;
+		len_b = tmp;
+		for (len_b--; len_b >= 0; len_b--)
+		{
+			b_number = b[len_b] - '0';
+			res += ptr[len_b + len_a + 1] + (a_number * b_number);
+			ptr[len_a + len_b + 1] = res % 10;
+			res /= 10;
+		}
+		if (res)
+			ptr[len_a + len_b + 1] = res % 10;
+	}
+	while (*ptr == 0)
+	{
+		ptr++;
+		total--;
+	}
+	for (i = 0; i < total; i++)
+		printf("%i", ptr[i]);
+	printf("\n");
 }
 
 /**
- * error_print - prints Error
+ * main - multiplies two numbers
+ * @argc: argument count
+ * @argv: argument vectors
  *
- * Return: Void
- */
-void error_print()
-{
-  int i;
-  char *err = "Error\n";
-  for (i = 0; err[i] != '\0'; i++)
-  {
-    _putchar(err[i]);
-  }
-}
-
-/**
- * to_int - converts string to int
- * @s: string to convert
- * Return: int
- */
-int to_int(char *s)
-{
-  int i = 0, len = 0;
-  long res = 0;
-
-  while(s[len])
-  {
-    len++;
-  }
-  while (i < len)
-  {
-    res = res * 10 + s[i] - '0';
-    // printf("res = %li\ns[i]= %c\n", res, s[i]);
-    i++;
-  }
-return (res);
-}
-void _print(long res)
-{
-  if (res / 10)
-    _print(res / 10);
-  _putchar(res % 10 + '0');
-}
-/**
- * main - multiplies two positive numbers
- * @argc: argument counter
- * @argv: argument vector
  * Return: 0
- */
- int main(int argc, char **argv)
- {
-   long a, b, res;
+ **/
+int main(int argc, char *argv[])
+{
+	char *a = argv[1];
+	char *b = argv[2];
 
-   if (argc != 3 || !is_number(argv[1]) || !is_number(argv[2]))
-   {
-     error_print();
-     exit(98);
-   }
-
-   a = to_int(argv[1]);
-   b = to_int(argv[2]);
-   res = a * b;
-   _print(res);
-   _putchar('\n');
-
- }
+	if (argc != 3 || !is_digit(a) || !is_digit(b))
+	{
+		printf("Error\n");
+		exit(98);
+	}
+	multiply(a, b);
+	return (0);
+}
