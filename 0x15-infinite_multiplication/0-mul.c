@@ -1,132 +1,197 @@
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include "holberton.h"
 
-
 /**
-* _strlen - Determines the length of the string manually
-* @s: Pointer to array of characters
-* Return: Value of length
+* is_number - prints Error
+* @s: string passed for testing
+* Return: 1 or 0 on failure
 */
-
-int _strlen(char *s)
-{
-	int i = 0;
-
-	while (s[i] != '\0')
-		i++;
-	return (i);
-}
-
-/**
- * is_number - prints Error
- * @s: string passed for testing
- * Return: 1 or 0 on failure
- */
 int is_number(char *s)
 {
-  int i;
-  for (i = 0; s[i] != '\0'; i++)
-  {
-    if (s[i] > '9' || s[i] < '0')
-    return 0;
-  }
-  return 1;
-}
-
-/**
- * to_int - converts string to int
- * @s: string to convert
- * Return: int
- */
-int to_int(char *s)
+int i;
+for (i = 0; s[i] != '\0'; i++)
 {
-  int i = 0, len = 0;
-  long res = 0;
-
-  while(s[len])
-  {
-    len++;
-  }
-  while (i < len)
-  {
-    res = res * 10 + s[i] - '0';
-    // printf("res = %li\ns[i]= %c\n", res, s[i]);
-    i++;
-  }
-return (res);
+if (s[i] > '9' || s[i] < '0')
+return (0);
+}
+return (1);
 }
 
 /**
- * multiply - multiplies two numbers
- * @a: first "number"
- * @b: second "number"
- **/
-void multiply(int a, int b, int len_a, int len_b)
+* print_error - Prints the word Error
+*
+* Return: void
+*/
+void print_error()
 {
-	int i, total, res = 0, tmp;
-	int *ptr;
-
-
-	tmp = len_b;
-	total = len_a + len_b;
-
-	ptr = malloc(sizeof(int) * total);
-	if (!ptr)
-	{
-		return;
-	}
-
-
-	for (len_a--; len_a >= 0; len_a--)
-	{
-		res = 0;
-		len_b = tmp;
-		for (len_b--; len_b >= 0; len_b--)
-		{
-			res += ptr[len_b + len_a + 1] + (a * b);
-			ptr[len_a + len_b + 1] = res % 10;
-			res /= 10;
-		}
-		if (res)
-			ptr[len_a + len_b + 1] = res % 10;
-	}
-	while (*ptr == 0)
-	{
-		ptr++;
-		total--;
-	}
-	for (i = 0; i < total; i++)
-		_putchar(ptr[i]);
-	_putchar('\n');
-
+int i;
+char *err = "Error\n";
+for (i = 0; err[i] != '\0'; i++)
+{
+_putchar(err[i]);
+}
 }
 
 /**
- * main - multiplies two positive numbers
- * @argc: argument counter
- * @argv: argument vector
- * Return: 0
- */
- int main(int argc, char **argv)
- {
-   long a, b, len_a, len_b;
-	 int i;
-	 char *err = "Error\n";
+* _strlen - returns length of a string
+* @s: The string
+*
+* Return: int
+*/
+int _strlen(char *s)
+{
+int i = 0;
+while (s[i])
+i++;
+return (i);
+}
 
-   if (argc != 3 || !is_number(argv[1]) || !is_number(argv[2]))
-   {
-	   for (i = 0; err[i] != '\0'; i++)
-	     _putchar(err[i]);
-     exit(98);
-   }
 
-   a = to_int(argv[1]);
-   b = to_int(argv[2]);
-	 len_a = _strlen(argv[1]);
- 	 len_b = _strlen(argv[2]);
-   multiply(a, b, len_a, len_b);
-  return 0 ;
+/**
+* _calloc - create array and initialize it to 0
+* @size: size of array
+*
+* Return: int*
+*/
+int *_calloc(int size)
+{
+int *new, i = 0;
+new = malloc(size * sizeof(int));
+if (!new)
+{
+print_error();
+exit(98);
+}
+for (i = 0; i < size; i++)
+new[i] = 0;
+return (new);
+}
 
- }
+/**
+* to_array - converts string number to array of ints
+* @argv: The string to convert
+*
+* Return: int*
+*/
+int *to_array(char *argv)
+{
+int *arr;
+int i, len;
+
+len = _strlen(argv);
+
+arr = _calloc(len);
+for (i = 0; i < len; i++)
+arr[i] = argv[i] - '0';
+
+return (arr);
+}
+
+/**
+* print_array - prints array
+* @a: The array to print
+* @size: size of The array to print
+* Return: void
+*/
+void print_array(int *a, int size)
+{
+int i = 0;
+while (a[i] == 0)
+i++;
+for (; i < size; i++)
+_putchar(a[i] + '0');
+_putchar('\n');
+}
+
+/**
+* reverse_arr - revereses array
+* @arr: The array to reverse
+* @l: size of the array to reverse
+* Return: int *
+*/
+int *reverse_arr(int *arr, int l)
+{
+int *new, i, j;
+
+new = malloc(l * sizeof(int));
+if (!new)
+{
+print_error();
+exit(98);
+}
+j = l;
+for (i = -1; i <= l; i++)
+{
+new[i] = arr[j];
+j--;
+}
+return (new);
+}
+
+/**
+* multiply - multiplies to arrays of ints together
+* @a: The array 1
+* @b: The array 2
+* @len_a: len of The array 1
+* @len_b: len of The array 2
+* Return: int *
+*/
+int *multiply(int *a, int *b, int len_a, int len_b)
+{
+int i, j;
+int *arr;
+
+arr = _calloc(len_a + len_b);
+
+for (i = len_a - 1; i >= 0; i--)
+{
+for (j = len_b; j >= 0; j--)
+{
+arr[i + j + 1] += a[len_a - 1 - i] * b[len_b - 1 - j];
+}
+}
+
+for (i = len_a + len_b - 1; i >= 0; i--)
+{
+if (arr[i] >= 10)
+{
+arr[i - 1] += arr[i] / 10;
+arr[i] = arr[i] % 10;
+}
+}
+return (arr);
+}
+/**
+* main - multiplies two positive numbers
+* @argc: argument counter
+* @argv: argument vector
+* Return: 0
+*/
+int main(int argc, char *argv[])
+{
+int *res, len_a, len_b, *a, *b;
+
+if (argc != 3 || !is_number(argv[1]) || !is_number(argv[2]))
+{
+print_error();
+exit(98);
+}
+
+len_a = _strlen(argv[1]);
+len_b = _strlen(argv[2]);
+
+a = to_array(argv[1]);
+b = to_array(argv[2]);
+
+
+a = reverse_arr(a, len_a);
+b = reverse_arr(b, len_b);
+
+
+res = multiply(a, b, len_a, len_b);
+print_array(res, len_a + len_b);
+
+return (0);
+}
