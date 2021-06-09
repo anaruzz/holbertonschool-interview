@@ -53,20 +53,20 @@ print_array(array, size);
 **/
 void merge_sort(int *array, size_t size)
 {
-size_t middle, i;
+size_t mid, i;
 int left[1000], right[1000];
 
 if (!array || size < 2)
 return;
 
-middle = size / 2;
-for (i = 0; i < middle; i++)
+mid = size / 2;
+for (i = 0; i < mid; i++)
 left[i] = array[i];
 
-for (i = middle; i < size; i++)
-right[i - middle] = array[i];
+for (i = mid; i < size; i++)
+right[i - mid] = array[i];
 
-merge_sort(left, middle);
-merge_sort(right, size - middle);
+merge_sort(left, mid);
+merge_sort(right, size - mid);
 merge(size, array, left, right);
 }
