@@ -21,6 +21,9 @@ tmp = list->express;
 while (tmp != NULL)
 {
 printf("Value checked at index [%li] = [%d]\n", tmp->index, tmp->n);
+if (tmp->n >= value)
+  break;
+prev = tmp;
 if (tmp->express == NULL)
 {
 while (tmp->next)
