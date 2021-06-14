@@ -22,7 +22,7 @@ while (tmp != NULL)
 {
 printf("Value checked at index [%li] = [%d]\n", tmp->index, tmp->n);
 if (tmp->n >= value)
-  break;
+break;
 prev = tmp;
 if (tmp->express == NULL)
 {
