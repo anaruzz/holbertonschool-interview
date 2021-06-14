@@ -17,19 +17,13 @@ def rain(walls):
         return 0
 
     total = 0
-    arr = walls.copy()
-    high = max(arr)
-    arr.remove(high)
-    high2 = max(arr)
-
-    n = len(walls)
-    for i in range(1, n-1):
-        total += high2 - walls[i]
-
+    for i in range(1, len(walls) - 1):
+        le = max(walls[:i])
+        ri = max(walls[i + 1:])
+        mini = min(le, ri)
+        if walls[i] < mini:
+            total += mini - walls[i]
     return total
-
-
-
     # total = 0
     # n = len(walls)
     # for i in range(1, n-1):
