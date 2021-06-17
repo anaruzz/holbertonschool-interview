@@ -5,56 +5,34 @@ a recursive function that queries the Reddit API,
 import requests
 
 
-def count_words(subreddit, word_list):
+import requests as rq
+
+
+def count_words(subreddit, word_list, print_stuff=0, results=None):
     """
-    Returns:
-        [type]: [description]
+    Queries list of a subreddit's hot articles for keywords.
+    Need to call recursively for grading purposes.
     """
-    instances = {}
-    after = ""
-    count = 0
-    return alt_count_words(subreddit, word_list, instances, after, count)
-
-
-def alt_count_words(subreddit, word_list, instances={}, after="", count=0):
-    """
-    recursive function that queries the Reddit API, parses the title of all
-    hot articles, and prints a sorted count of given keywords
-    """
-
-    url = "https://www.reddit.com/r/" + subreddit + "/hot/.json"
-    h = {"User-Agent": "rodrigo_rca"}
-    p = {"after": after, "count": count, "limit": 100}
-
-    response = requests.get(url, headers=h, params=p, allow_redirects=False)
-    try:
-        rr = response.json()
-        if (response.status_code > 300):
-            raise BaseException
-    except BaseException:
-        return
-
-    rr = rr.get("data")
-    after = rr.get("after")
-    count += rr.get("dist")
-    for child in rr.get("children"):
-        title = child.get("data").get("title").lower().split()
-        for word in word_list:
-            if (word.lower() in title):
-                t = len([t for t in title if t == word.lower()])
-                w = instances.get(word)
-                instances[word] = t if w is None else instances[word] + t
-
-    if (after is None):
-        if (len(instances) == 0):
-            print("")
+    if print_stuff == 1:
+        if len(results) < 1:
             return
-        code = []
-        for item, value in instances.items():
-            code.append((value, item))
-        code.sort(reverse=True)
-        for k in code:
-            item, value = k[0], k[1]
-            print("{}: {}".format(value, item))
-    else:
-        alt_count_words(subreddit, word_list, instances, after, count)
+        if results[0][0] > 0:
+            print("{}: {}".format(results[0][1], results[0][0]))
+        count_words(None, None, 1, results[1:])
+        return
+    if len(word_list) < 1:
+        return
+    hot_arts = rq.get("https://api.reddit.com/r/{}/hot".format(subreddit),
+                      headers={'User-Agent': 'student-testing'},
+                      allow_redirects=False)
+    if hot_arts.status_code != 200:
+        return
+    data_list = hot_arts.json()["data"]["children"]
+    if len(data_list) == 0:
+        return
+    title_list = list(map(lambda x: x["data"]["title"], data_list))
+    sep = " "
+    title_string = " " + sep.join(title_list) + " "
+    counts = list(map(lambda x: title_string.count(x), word_list))
+    results = sorted(zip(counts, word_list), reverse=True)
+    count_words(None, None, 1, results)
