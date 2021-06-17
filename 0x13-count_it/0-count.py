@@ -1,38 +1,44 @@
 #!/usr/bin/python3
 """
-a recursive function that queries the Reddit API,
+recursive function that queries the Reddit API
 """
 import requests
 
 
-import requests as rq
-
-
-def count_words(subreddit, word_list, print_stuff=0, results=None):
+def count_words(subreddit, list, after="", count={}):
     """
-    Queries list of a subreddit's hot articles for keywords.
-    Need to call recursively for grading purposes.
+    function that queries the Reddit API
+    Returns:
+        None -- If nothing goes well
     """
-    if print_stuff == 1:
-        if len(results) < 1:
+    if after is None:
+        return []
+    url = 'https://www.reddit.com/r/{}/hot.json'.format(subreddit)
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)\
+                AppleWebKit/537.36 (KHTML, like Gecko)Chrome/70.0.3538.7\
+                7 Safari/537.36'}
+    if after:
+        url += '?after={}'.format(after)
+    r = requests.get(url, headers=headers, allow_redirects=False)
+    if str(r) != '<Response [200]>':
+        return None
+    data = r.json().get('data')
+    after = data.get('after')
+    list_underlist = data.get('children')
+    for under_list in list_underlist:
+        title = under_list.get('data').get('title')
+        for mot in list:
+            occ = title.lower().split().count(mot.lower())
+            if occ > 0:
+                if mot in count:
+                    count[mot] += occ
+                else:
+                    count[mot] = occ
+    if after is None:
+        if not len(count) > 0:
             return
-        if results[0][0] > 0:
-            print("{}: {}".format(results[0][1], results[0][0]))
-        count_words(None, None, 1, results[1:])
-        return
-    if len(word_list) < 1:
-        return
-    hot_arts = rq.get("https://api.reddit.com/r/{}/hot".format(subreddit),
-                      headers={'User-Agent': 'student-testing'},
-                      allow_redirects=False)
-    if hot_arts.status_code != 200:
-        return
-    data_list = hot_arts.json()["data"]["children"]
-    if len(data_list) == 0:
-        return
-    title_list = list(map(lambda x: x["data"]["title"], data_list))
-    sep = " "
-    title_string = " " + sep.join(title_list) + " "
-    counts = list(map(lambda x: title_string.count(x), word_list))
-    results = sorted(zip(counts, word_list), reverse=True)
-    count_words(None, None, 1, results)
+        it = sorted(count.items(), key=lambda kv: (-kv[1], kv[0]))
+        for key, value in it:
+            print('{}: {}'.format(key.lower(), value))
+    else:
+        return count_words(subreddit, list, after, count)
