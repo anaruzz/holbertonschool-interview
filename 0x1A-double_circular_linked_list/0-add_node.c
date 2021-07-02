@@ -19,6 +19,8 @@ new = malloc(sizeof(List));
 if (!new)
 return (NULL);
 new->str = strdup(str);
+if (new->str == NULL)
+return (NULL);
 
 if ((*list) != NULL)
 {
