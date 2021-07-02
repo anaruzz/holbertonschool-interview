@@ -66,6 +66,6 @@ new->prev = new;
 new->next = new;
 (*list) = new;
 }
-return (NULL);
-
+*list = new;
+return (new);
 }
