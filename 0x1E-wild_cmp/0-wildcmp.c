@@ -58,7 +58,7 @@ int compare(char *s1, char *s2, int i, int j)
 }
 
 /**
- * wildcmp - a function that compares two strings 
+ * wildcmp -a function that compares two strings 
  * @s1: first string
  * @s2: second string
  * Return: 1 if the strings are identical, otherwise return 0
