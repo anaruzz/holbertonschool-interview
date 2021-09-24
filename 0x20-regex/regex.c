@@ -1,39 +1,28 @@
-#include <stdlib.h>
-#include <stdio.h>
 #include "regex.h"
-
 /**
- * compare - compares two strings
- * @first: first string
- * @second: second string
- * Return: 1 if the strings can be considered identical, otherwise return 0
-**/
-
-int compare(const char *first, const char *second)
-{
-
-	if (*first == '\0' && *second == '\0')
-		return (1);
-
-	if (*first == '*' && *(first + 1) != '\0' && *second == '\0')
-		return (0);
-
-	if (*first == '.' || *first == '?' ||  *first == *second)
-		return (compare(first + 1, second + 1));
-
-	if (*first == '*')
-		return (compare(first + 1, second) || compare(first, second + 1));
-	return (0);
-}
-
-/**
- * regex_match - checks whether a given pattern matches a given string
- * @str: is the string to scan
- * @pattern: is the regular expression
- * Return: EXIT_SUCCESS or EXIT_FAILURE
- */
-
+* regex_match - checks whether a given pattern matches a given string.
+* @str: string
+* @pattern: pattern
+* Return: 1 - 0
+*/
 int regex_match(char const *str, char const *pattern)
 {
-    return (compare(pattern, str));
+	int d = 0;
+	int r = 0;
+
+	if (!str || !pattern)
+		return (0);
+
+	d = *str && (*str == *pattern || *pattern == '.');
+	r = *(pattern + 1) == '*';
+
+	if (!*str && !r)
+		return (*pattern ? 0 : 1);
+	else if (d && r)
+		return (regex_match(str + 1, pattern) || regex_match(str, pattern + 2));
+	else if (d && !r)
+		return (regex_match(str + 1, pattern + 1));
+	else if (r)
+		return (regex_match(str, pattern + 2));
+	return (0);
 }
